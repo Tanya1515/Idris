@@ -1,3 +1,5 @@
+module Lecture_2
+
 Public export
 data Engine = Diesel | Gasoline | LPG
 Namespace Example2 = Car Color Engine Transmission 
