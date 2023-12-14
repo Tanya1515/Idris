@@ -3,34 +3,25 @@ module Lecture_3
 %default total
 
 --Необходимо упордочить дни рождения по месяцу и дню, независимо от года.
-
-
 data Month = Jan | Feb | Mar | Apr | May | Jun | Jul | Aug | Sept | Oct | Nov | Dec
-
 
 Year  = Nat
 
-
 data Day = MkDay Nat
-
 
 --функция, которая принимает на вход Nat и ограничивает количество дней в месяце
 mkDay : Nat -> Month -> Year -> Day
 mkDay d m y = MkDay d
 
-
 mkDate : Nat -> Month -> Year -> Date
 mkDate d m y = MkDate (MkDay d m y) m y  -- Mkdate - название конструктора
 data Date = MkDate Day Month Year
 
-
 -- в данном случае SingleElem Date - список из одного элемента Empty - пустой список
-
 myBday : Date
 myBDay = MkDate (MkDay 22) Aug 1974
 
 data ListDate = Prepend Date ListDate | Empty
-
 
 -- создание списка
 -- $ - замена скобок
@@ -39,9 +30,6 @@ bdays = Prepend myBDay
                $ Prepend (mkDate 13 Jun 2015)
                   $ Prepend (mkDate 30 Dec 1980) Empty 
 
-
-
-
 -- функция, которая сравнивает два натуральных числа
 compareNat : Nat -> Nat -> Ordering
 compareNat (S m) (S n) = compareNat m n
@@ -49,13 +37,11 @@ compareNat (S _) Z = GT //_ - замена m
 compareNat Z (S _) = LT //_ - замена n
 compareNat Z Z = EQ
 
-
 -- ставим в соответствие месяцу натуральное число
 monthToNat : Month -> Nat
 monthToNat Jan = 1
 monthToNat Feb = 2
 ...
-
 
 -- другой способ поставить в соответствие месяцу настуральное число
 monthToNat : Month -> Nat
@@ -79,7 +65,6 @@ monthToNat =
 compareMonth : Month -> Month -> Ordering
 compareMonth m n = compareNat (monthToNat m) (monthToNat n)
 
-
 -- функция, которая сравнивает две даты
 compareInYear : Date -> Date -> Ordering
 compareInYear (MkDate (MkDay d1) m1 _) (MkDate (MkDay d2) m2 _) =
@@ -102,10 +87,8 @@ sortInYear : ListDate -> ListDate
 sortInYear Empty = Empty
 sortInYear (Prepend d ds) = insertinSorted d (sortInYear ds)
   
-
 -- новый тип данных, который объявляет три случай: строго меньше, равно, строго больше 
 data Ordering = LT | EQ | GT -- - присутствует в библиотеке
-
 
 -- функция, которая принимает год и возвращает еще один год
 nextYear : Year -> Year

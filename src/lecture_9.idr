@@ -46,4 +46,5 @@ ltAntiSimmetric n m nm mn = do
     let u = ltTransitive _ _ _ nm mn
     case u of 
         LTEZero impossible
+        
 --ltAntiSimmetric (S n) (S m) (LTESucc nm) (LTESucc mn) = ltAntiSimmetric n m nm mn
