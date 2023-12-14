@@ -22,10 +22,15 @@ elementExists (x :: xs) f = case decSo f x of
                                             (x' ** (sofx, (FS idx ** idxGood))) => nfx' (x' ** (sofx, (idx ** idxGood)))
 
 
-sprintfImpl: List Char -> (ty: Type ** ty)
-sprintfImpl [] = (String ** "")
-sprintfImpl ('%' :: 'd' :: xs) = (integer -> fst $ sprintfImpl xs ** \n => show n ++ snd sprintfImpl xs)
-sprintfImpl (x :: xs) =
+sprintfImpl: SnocList String -> List Char -> (ty: Type ** ty)
+sprintfImpl acc [] = (String ** concat acc)
+sprintfImpl acc ('%' :: 'd' :: xs) = (integer -> ** 
+                                        \n => snd ( SprintfImpl (acc :< show n) xs))
+sprintfImpl acc ('%' :: 's' :: xs) = (String -> ** 
+                                        \s => snd ( SprintfImpl (acc :< show s) xs))
+SprintfImpl acc ('%' :: '%' :: xs) = (_  ** snd $ SprintfImpl (acc :< "%") xs )
+sprintfImpl acc  (x :: xs) = (_  ** snd $ SprintfImpl (acc :< cast x) xs )
 
-sprintf: (str : String) -> fst $ sprintfImpl $ unpack str
-sprintf str = snd $ SprintfImpl $ unpack str
+sprintf: (str : String) -> fst $ sprintfImpl [<] $ unpack str
+sprintf str = snd $ SprintfImpl [<] $ unpack str
+
